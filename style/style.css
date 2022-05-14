@@ -1,0 +1,60 @@
+:root {
+    --bs-info-rgb: 13, 202, 240;
+}
+
+* {
+
+    font-size: 14px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.size-body {
+    display: flex;
+    flex-wrap: wrap;
+    width: 375px;
+    height: auto;
+    margin: 0 auto;
+
+}
+
+nav {
+    width: 100%;
+    height: 50px;
+    margin: 0 auto;
+    border: 2px solid blue;
+}
+
+.balance,
+.logotype {
+    width: 90%;
+    text-align: center;
+}
+
+.entries-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.in-money,
+.out-money {
+    width: 47%;
+
+    border: 1px solid black;
+
+}
+
+.heard-in {
+    box-sizing: content-box;
+    width: 100%;
+}
+
+.name-visiters {
+    box-sizing: content-box;
+    width: 90%;
+
+}
