@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl-PL">
 
     <head>
         <meta charset="UTF-8">
@@ -16,29 +16,44 @@
         <div class="size-body">
             <nav>
                 <div class="logotype "><img class="img-fluid" src="" alt="logo"></div>
-                <div class="balance"> Możesz jeszcze wydać </div>
+                <span class="balance"> Możesz jeszcze wydać <span class="total-us"> </span> </span>
             </nav>
             <div class="entries-wrapper">
                 <section class="in-money d-flex flex-column flex-fill">
                     <div class="heard-in">
-                        <h2>PRZYCHODY</h2>
-                        <input class="name-visiters" type="text" value="Nazwa przychodu">
-                        <input type="money" value="10000.00">
-                        <button>dodaj</button>
+                        <h2>DOCHODY</h2>
+                        <input name="name-in" class="name-in" type="text" placeholder="name" required />
+                        <input class="money-in" type="number" min='1' step="0.01" name='money-in' placeholder="100.00 zl" required>
+                        <button class="btn-in">dodaj</button>
                     </div>
-                    <div>
-
+                    <hr>
+                    <div class="footer-out">
+                        <p>&Sigma; przychodów <span class="total-in"> 0</span> zł</p>
                     </div>
-
+<ul class="in_money-elements">
+                        
+                        <button>edit</button>
+                        <button>delete</button>
+                        </ul>
                 </section>
                 <section class="out-money">
                     <div class="heard-out">
                         <h2>WYDATKI</h2>
+                    <input class="name-out" type="text" placeholder="name" required>
+                    <input class='money-out' type='number' min='1' step="0.01" name='money-in' placeholder="100.00 zl" required>
+                    <button class="btn-out">dodaj</button>
                     </div>
-                    <div>
-
+                    <hr>
+                    <div class="footer-out">
+                        <p>&Sigma; wydatków <span class="total-out"> 0</span> zł</p>
                     </div>
+                    <ul class="out_money-elements">
+                        <!-- <li>1234567891234=2000</li>
+                                                                                                                                                                                                                                                                                                                                                                                                <button>edit</button>
+                                                                                                                                                                                                                                                                                                                                                                                                <button>delete</button> -->
+                    </ul>
                 </section>
+
             </div>
         </div>
 
