@@ -1,6 +1,5 @@
-// document.addEventListener(DOMException, function () {
-let btnInAdd = document.querySelector(".btn-in-add");
-let btnOutAdd = document.querySelector(".btn-out-add");
+let btnAdd = document.querySelector(".btn-add");
+
 let ulIn = document.querySelector(".in_money-elements");
 let ulOut = document.querySelector(".out_money-elements");
 
@@ -12,7 +11,7 @@ let outName = document.querySelector(".out-name");
 let moneyOut = document.querySelector(".out-money");
 let totalOut = document.querySelector(".total-out");
 
-let totalUs = document.querySelector(".total-us");
+let totalUse = document.querySelector(".total-use");
 let balance = document.querySelector(".balance");
 
 function addLiAndBtn(name, money, classUl) {
@@ -28,83 +27,81 @@ function addLiAndBtn(name, money, classUl) {
 
   let span = document.createElement("span");
   span.classList.add("span-add");
-  let div = document.querySelector(classUl);
+  let ul = document.querySelector(classUl);
 
   span.textContent = name + " - " + money + " zł";
   [span, edit, del].map((item) => {
     li.appendChild(item);
   });
 
-  return div.appendChild(li);
+  return ul.appendChild(li);
 }
+
 function plusSumma(item, classByTotal) {
   let total = document.querySelector(classByTotal);
   total.textContent = item + parseFloat(total.textContent);
   balanceAll();
 }
+
 function minusSumma(item, classByTotal) {
   let total = document.querySelector(classByTotal);
-  total.textContent = parseFloat(total.textContent) - item;
+  if (total.textContent === "0") {
+    total.textContent = 0;
+  } else {
+    total.textContent = parseFloat(total.textContent) - item;
+  }
+
   balanceAll();
 }
+
 function balanceAll() {
   let summa =
     parseFloat(totalIn.textContent) - parseFloat(totalOut.textContent);
   if (summa < 0) {
     balance.textContent =
-      "Was balans przebił podlogę " +
-      (totalUs.textContent = summa + " zł proszę poprawić");
+      "Wasz balans przebił podlogę " +
+      (totalUse.textContent = summa + " zł proszę poprawić");
   } else {
     balance.textContent =
-      "Mozesz jeszcze wydać " + (totalUs.textContent = summa + " zł");
+      "Mozesz jeszcze wydać " + (totalUse.textContent = summa + " zł");
   }
 }
 
-btnInAdd.addEventListener("click", () => {
-  let classUL = ".in_money-elements";
-  let totalClass = ".total-in";
-  if (
-    typeof parseFloat(moneyIn.value) !== "number" ||
-    moneyIn.value.length == 0
-  ) {
+function checkValue(classUL, totalClass, money, namePayment) {
+  if (typeof parseFloat(money.value) !== "number" || money.value.length == 0) {
     alert("add payment");
   } else if (
-    inputName.value.length < 3 ||
-    typeof inputName.value !== "string"
+    namePayment.value.length < 3 ||
+    typeof namePayment.value !== "string"
   ) {
     alert("add a payment name");
   } else {
-    addLiAndBtn(inputName.value, parseFloat(moneyIn.value), classUL);
-    plusSumma(parseFloat(moneyIn.value), totalClass);
+    addLiAndBtn(namePayment.value, parseFloat(money.value), classUL);
+    plusSumma(parseFloat(money.value), totalClass);
+  }
+}
 
+btnAdd = (element) => {
+  if (element.name === "out") {
+    let classUL = ".out_money-elements";
+    let totalClass = ".total-out";
+    checkValue(classUL, totalClass, moneyOut, outName);
+    outName.value = "";
+    moneyOut.value = "";
+  } else if (element.name === "in") {
+    let classUL = ".in_money-elements";
+    let totalClass = ".total-in";
+    checkValue(classUL, totalClass, moneyIn, inputName);
     inputName.value = "";
     moneyIn.value = "";
   }
-});
+};
 
-btnOutAdd.addEventListener("click", () => {
-  let classUL = ".out_money-elements";
-  let totalClass = ".total-out";
-  if (
-    typeof parseFloat(moneyOut.value) !== "number" ||
-    moneyOut.value.length == 0
-  ) {
-    alert("add payment");
-  } else if (outName.value.length < 3 || typeof outName.value !== "string") {
-    alert("add a payment name");
-  } else {
-    addLiAndBtn(outName.value, parseFloat(moneyOut.value), classUL);
-    plusSumma(parseFloat(moneyOut.value), totalClass);
-
-    outName.value = "";
-    moneyOut.value = "";
-  }
-});
 function btnEdit(totalClass, spanLi, li, button) {
   const inputText = document.createElement("input");
   const inputMoney = document.createElement("input");
-  inputMoney.classList.add("input-money");
-  inputText.classList.add("input-name");
+  inputMoney.classList.add("edit-money");
+  inputText.classList.add("edit-name");
   let index = spanLi.textContent.split(" ");
 
   inputText.type = "text";
@@ -122,9 +119,12 @@ function btnEdit(totalClass, spanLi, li, button) {
 }
 function btnSave(totalClass, spanLi, li, button) {
   const inText = li.firstElementChild;
-  const inMoney = document.querySelector(".input-money");
+  const inMoney = document.querySelector(".edit-money");
   const span = document.createElement("span");
   span.classList.add("span-container");
+  if (inMoney.value.length == 0) {
+    inMoney.value = 0;
+  }
   span.textContent = inText.value + " - " + inMoney.value + " zł";
   plusSumma(parseFloat(inMoney.value), totalClass);
   li.insertBefore(span, inText);
@@ -140,37 +140,29 @@ function btnDelete(totalClass, spanLi) {
   let Money = index[2];
   minusSumma(parseFloat(Money), totalClass);
 }
+function selectEditOrDeleteOrSave(e, totalClass) {
+  if (e.target.tagName === "BUTTON") {
+    const button = e.target;
+    const li = button.parentNode;
+    const ul = li.parentNode;
+    const span = li.firstElementChild;
+    if (button.name === "delete") {
+      btnDelete(totalClass, span);
+      ul.removeChild(li);
+    } else if (button.name === "edit") {
+      btnEdit(totalClass, span, li, button);
+    } else if (button.name === "save") {
+      btnSave(totalClass, span, li, button);
+    }
+  }
+}
+
 ulIn.addEventListener("click", (e) => {
   let totalClass = ".total-in";
-  if (e.target.tagName === "BUTTON") {
-    const button = e.target;
-    const li = button.parentNode;
-    const ul = li.parentNode;
-    const span = li.firstElementChild;
-    if (button.name === "delete") {
-      btnDelete(totalClass, span);
-      ul.removeChild(li);
-    } else if (button.name === "edit") {
-      btnEdit(totalClass, span, li, button);
-    } else if (button.name === "save") {
-      btnSave(totalClass, span, li, button);
-    }
-  }
+  selectEditOrDeleteOrSave(e, totalClass);
 });
+
 ulOut.addEventListener("click", (e) => {
-  let totalClass = ".total-out";
-  if (e.target.tagName === "BUTTON") {
-    const button = e.target;
-    const li = button.parentNode;
-    const ul = li.parentNode;
-    const span = li.firstElementChild;
-    if (button.name === "delete") {
-      btnDelete(totalClass, span);
-      ul.removeChild(li);
-    } else if (button.name === "edit") {
-      btnEdit(totalClass, span, li, button);
-    } else if (button.name === "save") {
-      btnSave(totalClass, span, li, button);
-    }
-  }
+  totalClass = ".total-out";
+  selectEditOrDeleteOrSave(e, totalClass);
 });

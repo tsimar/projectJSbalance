@@ -3,24 +3,22 @@
 }
 
 * {
-
     font-size: 14px;
 }
 
-li,
-ul {
 
+ul {
     box-sizing: content-box;
     width: 100%;
+    list-style-type: circle;
+    padding-left: 25px;
 }
 
-ul {
-    margin-left: 10px;
-    padding-left: 10px;
-}
 li {
     width: 90%;
 }
+
+
 body {
     margin: 0;
     padding: 0;
@@ -30,28 +28,30 @@ body {
 .size-body {
     display: flex;
     flex-direction: column;
-width: 100%;
+    width: 100%;
     height: 100vh;
     margin: 0 auto;
-background-color: rgba(252, 233, 206, 0.542);
+    background-color: rgba(252, 233, 206, 0.542);
 }
 
 nav {
-display: flex;
+    display: flex;
     flex-direction: column;
     width: 100%;
     height: 55px;
-    margin: 0 auto;
-
+    margin: 0 auto 10px;
 }
+
 .nav-hr {
     margin: 5px 0;
 }
+
 .balance,
 .logotype {
     width: 90%;
     text-align: center;
     margin: 0 auto;
+    font-size: 1.3em;
 }
 
 .img-logo {
@@ -62,47 +62,41 @@ display: flex;
 .img-in {
     width: 32px;
     padding-left: 5px;
-
 }
+
 .entries-wrapper {
     display: flex;
     justify-content: center;
-
     width: 100%;
     height: auto;
 }
+
 .section_in-money {
     border-right: 1px double black;
 }
 
 .heard-in,
 .heard-out {
-
     display: grid;
-        grid-template-columns: repeat(3, 33%);
-        grid-template-rows: repeat(4, 20px);
-        width: 185px;
-        height: 100px;
-        margin-left: 5px;
-        gap: 5px;
-        grid-template-areas:
-            "a a a"
-            "a a a"
-            "b b d"
-            "c c d";
-    }
-    
-    .btn-in-add,
-    .btn-out-add {
-        width: 70%;
-        grid-area: d;
-        text-align: left;
-        background-color: rgba(252, 233, 206, 0.542);
-        background-image: url(../img/add.png);
-        background-position: center center;
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
+    grid-template-columns: repeat(3, 33%);
+    grid-template-rows: repeat(4, 20px);
+    width: 185px;
+    height: 100px;
+    margin-left: 5px;
+    gap: 5px;
+    grid-template-areas: "a a a""a a a""b b d""c c d";
+}
+
+.btn-add {
+    width: 70%;
+    grid-area: d;
+    text-align: left;
+    background-color: rgba(252, 233, 206, 0.542);
+    background-image: url(../img/add.png);
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
 
 .heard-in>h2,
 .heard-out>h2 {
@@ -113,54 +107,64 @@ display: flex;
 .inp-name,
 .out-name {
     grid-area: b;
+    font-size: 1.1em;
 }
 
 .inp-money,
 .out-money {
     grid-area: c;
     width: 50%;
+    font-size: 1.1em;
 }
+
 input {
     box-sizing: content-box;
     width: 90%;
     font-size: 0.8em;
 }
+
 .input-money,
 .input-name {
     width: 80%;
     margin-bottom: 5px;
 }
 
-.footer-in {
+.footer-in,
+.footer-out {
     margin-left: 5px;
+    font-size: 1.1em;
 }
 
 .footer-out {
     margin-left: 15px;
 }
-.in_money-elements,
-.out_money-elements {
-    width: 100%;
+
+.in_money-elements {
+    margin-left: 25px;
+    padding-left: 0;
 }
-.btn-edit,
-.btn-save {
-    background: url('../img/edit.png') no-repeat;
-    background-size: contain;
-    margin-right: 5px;
-    width: 36px;
-    height: 36px;
+
+.btn-edit {
+    background: url("../img/edit.png") no-repeat;
 }
 
 .btn-save {
-    background: url('../img/save.png') no-repeat;
+    background: url("../img/save.png") no-repeat;
 }
 
 .btn-del {
-    background: url('../img/trash.png') no-repeat;
-    background-size: contain;
+    background: url("../img/trash.png") no-repeat;
+}
+
+.btn-edit,
+.btn-save,
+.btn-del {
+    width: 25px;
+    height: 25px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     margin-right: 5px;
-    width: 36px;
-    height: 36px;
+    background-size: contain;
 }
 
 .span-container,
@@ -169,7 +173,7 @@ input {
     margin-bottom: 5px;
 }
 
-@media screen and (min-width:575px) {
+@media screen and (min-width: 575px) {
     .size-body {
         width: 100%;
     }
@@ -181,20 +185,14 @@ input {
 
     .heard-in,
     .heard-out {
-
         display: grid;
         grid-template-columns: repeat(3, 33%);
         grid-template-rows: repeat(4, 20px);
         width: 286px;
         height: 110px;
-
         margin-left: 10px;
         gap: 8px;
-        grid-template-areas:
-            "a a a"
-            "a a a"
-            "b b d"
-            "c c d";
+        grid-template-areas: "a a a""a a a""b b d""c c d";
     }
 
     .footer-in,
@@ -203,10 +201,13 @@ input {
     }
 }
 
-@media screen and (min-width:768px) {
+@media screen and (min-width: 768px) {
     .size-body {
         width: 992px;
-        font-size: 2em;
+    }
+
+    .balance {
+        font-size: 1.6em;
     }
 
     .heard-in {
@@ -225,14 +226,9 @@ input {
         grid-template-rows: repeat(3, 20px);
         width: 496px;
         height: 80px;
-
         margin-left: 10px;
         column-gap: 5px;
-        grid-template-areas:
-            "a a a a"
-            "a a a a"
-            "b b c d"
-        ;
+        grid-template-areas: "a a a a""a a a a""b b c d";
     }
 
     .footer-in,
@@ -240,19 +236,29 @@ input {
         margin-left: 10px;
     }
 
+    .total-in,
+    .total-out {
+        font-size: 1.3em;
+    }
+
     .inp-money,
     .out-money {
-
         width: auto;
     }
 
-    input {
+    .inp-name,
+    .out-name {
         width: auto;
     }
 
-    .heard-in>h2,
-    .heard-out>h2 {
-
+    .heard-h2 {
+        font-size: 1.3em;
         margin: 0 auto;
+    }
+
+    .edit-name,
+    .edit-money {
+        width: 235px;
+        margin-right: 10px;
     }
 }
