@@ -18,10 +18,12 @@ function addLiAndBtn(name, money, classUl) {
   let li = document.createElement("li");
   let edit = document.createElement("button");
   edit.classList.add("btn-edit");
+  edit.classList.add("btn-all");
 
   edit.name = "edit";
   let del = document.createElement("button");
   del.classList.add("btn-del");
+  del.classList.add("btn-all");
 
   del.name = "delete";
 
@@ -29,7 +31,7 @@ function addLiAndBtn(name, money, classUl) {
   span.classList.add("span-add");
   let ul = document.querySelector(classUl);
 
-  span.textContent = name + " - " + money + " zł";
+  span.textContent = `${name} - ${money} zł`;
   [span, edit, del].map((item) => {
     li.appendChild(item);
   });
@@ -59,11 +61,11 @@ function balanceAll() {
     parseFloat(totalIn.textContent) - parseFloat(totalOut.textContent);
   if (summa < 0) {
     balance.textContent =
-      "Wasz balans przebił podlogę " +
-      (totalUse.textContent = summa + " zł proszę poprawić");
+      "Wasz bilans przebił podlogę " +
+      (totalUse.textContent = `${summa} zł proszę poprawić`);
   } else {
     balance.textContent =
-      "Mozesz jeszcze wydać " + (totalUse.textContent = summa + " zł");
+      "Mozesz jeszcze wydać " + (totalUse.textContent = `${summa} zł`);
   }
 }
 
@@ -122,10 +124,10 @@ function btnSave(totalClass, spanLi, li, button) {
   const inMoney = document.querySelector(".edit-money");
   const span = document.createElement("span");
   span.classList.add("span-container");
-  if (inMoney.value.length == 0) {
+  if (inMoney.value.length === 0) {
     inMoney.value = 0;
   }
-  span.textContent = inText.value + " - " + inMoney.value + " zł";
+  span.textContent = `${inText.value}  - ${inMoney.value}  zł`;
   plusSumma(parseFloat(inMoney.value), totalClass);
   li.insertBefore(span, inText);
   li.removeChild(inText);
