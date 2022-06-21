@@ -127,7 +127,7 @@ function btnSave(totalClass, spanLi, li, button) {
   if (inMoney.value.length === 0) {
     inMoney.value = 0;
   }
-  span.textContent = `${inText.value}  - ${inMoney.value}  zł`;
+  span.textContent = `${inText.value} - ${inMoney.value}  zł`;
   plusSumma(parseFloat(inMoney.value), totalClass);
   li.insertBefore(span, inText);
   li.removeChild(inText);
