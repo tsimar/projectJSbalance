@@ -70,16 +70,18 @@ function balanceAll() {
 }
 
 function checkValue(classUL, totalClass, money, namePayment) {
-  if (typeof parseFloat(money.value) !== "number" || money.value.length == 0) {
+  let moneyFn = parseFloat(money.value);
+  moneyFn = moneyFn.toFixed(2);
+  if (moneyFn < 0) {
+    moneyFn = -1 * parseFloat(moneyFn);
+  }
+  if (typeof parseFloat(moneyFn) !== "number" || moneyFn.length == 0) {
     alert("add payment");
-  } else if (
-    namePayment.value.length < 3 ||
-    typeof namePayment.value !== "string"
-  ) {
+  } else if (namePayment.length < 3 || typeof namePayment !== "string") {
     alert("add a payment name");
   } else {
-    addLiAndBtn(namePayment.value, parseFloat(money.value), classUL);
-    plusSumma(parseFloat(money.value), totalClass);
+    addLiAndBtn(namePayment, parseFloat(moneyFn), classUL);
+    plusSumma(parseFloat(moneyFn), totalClass);
   }
 }
 
@@ -87,13 +89,13 @@ btnAdd = (element) => {
   if (element.name === "out") {
     let classUL = ".out_money-elements";
     let totalClass = ".total-out";
-    checkValue(classUL, totalClass, moneyOut, outName);
+    checkValue(classUL, totalClass, moneyOut.toFixet(2), outName.value.trim());
     outName.value = "";
     moneyOut.value = "";
   } else if (element.name === "in") {
     let classUL = ".in_money-elements";
     let totalClass = ".total-in";
-    checkValue(classUL, totalClass, moneyIn, inputName);
+    checkValue(classUL, totalClass, moneyIn, inputName.value.trim());
     inputName.value = "";
     moneyIn.value = "";
   }
@@ -119,7 +121,8 @@ function btnEdit(totalClass, spanLi, li, button) {
   button.classList.add("btn-save");
   button.classList.remove("btn-edit");
 }
-function btnSave(totalClass, spanLi, li, button) {
+
+function btnSave(totalClass, li, button) {
   const inText = li.firstElementChild;
   const inMoney = document.querySelector(".edit-money");
   const span = document.createElement("span");
@@ -138,9 +141,16 @@ function btnSave(totalClass, spanLi, li, button) {
 }
 
 function btnDelete(totalClass, spanLi) {
-  let index = spanLi.textContent.split(" ");
-  let Money = index[2];
-  minusSumma(parseFloat(Money), totalClass);
+  let arrayChar = spanLi.textContent.split(" ");
+
+  let money;
+  for (let i = 0; i < arrayChar.length; i++) {
+    if (arrayChar[i] === "-") {
+      money = arrayChar[i + 1];
+    }
+  }
+
+  minusSumma(parseFloat(money), totalClass);
 }
 function selectEditOrDeleteOrSave(e, totalClass) {
   if (e.target.tagName === "BUTTON") {
@@ -165,6 +175,6 @@ ulIn.addEventListener("click", (e) => {
 });
 
 ulOut.addEventListener("click", (e) => {
-  totalClass = ".total-out";
+  let totalClass = ".total-out";
   selectEditOrDeleteOrSave(e, totalClass);
 });
