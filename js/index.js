@@ -41,7 +41,9 @@ function addLiAndBtn(name, money, classUl) {
 
 function plusSumma(item, classByTotal) {
   let total = document.querySelector(classByTotal);
-  total.textContent = item + parseFloat(total.textContent);
+  let numberTotal = Number(parseFloat(total.textContent).toFixed(2));
+
+  total.textContent = numberTotal + Number(parseFloat(item).toFixed(2));
   balanceAll();
 }
 
@@ -50,15 +52,15 @@ function minusSumma(item, classByTotal) {
   if (total.textContent === "0") {
     total.textContent = 0;
   } else {
-    total.textContent = parseFloat(total.textContent) - item;
+    total.textContent = parseFloat(total.textContent).toFixed(2) - item;
   }
 
   balanceAll();
 }
 
 function balanceAll() {
-  let summa =
-    parseFloat(totalIn.textContent) - parseFloat(totalOut.textContent);
+  let summa = Number(totalIn.textContent) - Number(totalOut.textContent);
+  summa = summa.toFixed(2);
   if (summa < 0) {
     balance.textContent =
       "Wasz bilans przebił podlogę " +
@@ -70,18 +72,18 @@ function balanceAll() {
 }
 
 function checkValue(classUL, totalClass, money, namePayment) {
-  let moneyFn = parseFloat(money.value);
-  moneyFn = moneyFn.toFixed(2);
+  let moneyFn = parseFloat(money.value).toFixed(2);
+  // moneyFn = moneyFn.toFixed(2);
   if (moneyFn < 0) {
-    moneyFn = -1 * parseFloat(moneyFn);
+    moneyFn = -1 * parseFloat(moneyFn).toFixed(2);
   }
   if (typeof parseFloat(moneyFn) !== "number" || moneyFn.length == 0) {
     alert("add payment");
   } else if (namePayment.length < 3 || typeof namePayment !== "string") {
     alert("add a payment name");
   } else {
-    addLiAndBtn(namePayment, parseFloat(moneyFn), classUL);
-    plusSumma(parseFloat(moneyFn), totalClass);
+    addLiAndBtn(namePayment, parseFloat(moneyFn).toFixed(2), classUL);
+    plusSumma(parseFloat(moneyFn).toFixed(2), totalClass);
   }
 }
 
@@ -89,7 +91,7 @@ btnAdd = (element) => {
   if (element.name === "out") {
     let classUL = ".out_money-elements";
     let totalClass = ".total-out";
-    checkValue(classUL, totalClass, moneyOut.toFixet(2), outName.value.trim());
+    checkValue(classUL, totalClass, moneyOut, outName.value.trim());
     outName.value = "";
     moneyOut.value = "";
   } else if (element.name === "in") {
@@ -105,6 +107,7 @@ function btnEdit(totalClass, spanLi, li, button) {
   const inputText = document.createElement("input");
   const inputMoney = document.createElement("input");
   inputMoney.classList.add("edit-money");
+  inputMoney.pattern = "^d*(.d{0,2})?$";
   inputText.classList.add("edit-name");
   let index = spanLi.textContent.split(" ");
 
@@ -113,7 +116,7 @@ function btnEdit(totalClass, spanLi, li, button) {
 
   inputText.value = index[0];
   inputMoney.value = index[2];
-  minusSumma(parseFloat(inputMoney.value), totalClass);
+  minusSumma(parseFloat(inputMoney.value).toFixed(2), totalClass);
   li.insertBefore(inputText, spanLi);
   inputText.after(inputMoney);
   li.removeChild(spanLi);
@@ -122,17 +125,20 @@ function btnEdit(totalClass, spanLi, li, button) {
   button.classList.remove("btn-edit");
 }
 
-function btnSave(totalClass, li, button) {
-  const inText = li.firstElementChild;
+function btnSave(totalClass, spanLi, li, button) {
+  // const inText1 = li.firstElementChild;
+  const inText = document.querySelector(".edit-name");
   const inMoney = document.querySelector(".edit-money");
   const span = document.createElement("span");
   span.classList.add("span-container");
   if (inMoney.value.length === 0) {
     inMoney.value = 0;
   }
-  span.textContent = `${inText.value} - ${inMoney.value}  zł`;
-  plusSumma(parseFloat(inMoney.value), totalClass);
-  li.insertBefore(span, inText);
+
+  span.textContent =
+    inText.value + " - " + parseFloat(inMoney.value).toFixed(2) + " zł";
+  plusSumma(parseFloat(inMoney.value).toFixed(2), totalClass);
+  li.insertBefore(span, spanLi);
   li.removeChild(inText);
   li.removeChild(inMoney);
   button.name = "edit";
@@ -178,3 +184,8 @@ ulOut.addEventListener("click", (e) => {
   let totalClass = ".total-out";
   selectEditOrDeleteOrSave(e, totalClass);
 });
+
+  
+    
+
+
